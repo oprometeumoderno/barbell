@@ -1,0 +1,55 @@
+#!/usr/bin/env python
+import os
+import sys
+
+import yaml
+
+version_default = 0
+available_engines = ['none', 'box2d']
+env_dict = {}
+
+
+if len(sys.argv) == 1 or sys.argv[1] != 'init':
+    print("usage: barbell init")
+    sys.exit(0)
+else:
+    print("Thanks for using Barbell!")
+    print("This utility will help you creating a Gym environment.")
+
+    # environment name
+    env_name = input("Environment name: ")
+    env_dict["name"] = env_name
+
+    # environment version
+    env_version = int(input("Version (%d): " % version_default) or version_default)
+    env_dict["version"] = env_version
+    env_dict["versioned_name"] = "%s-v%d" % (env_name, env_version)
+
+    # environment description
+    env_description = input("Description: ")
+    env_dict["description"] = env_description
+
+    # environment engine
+    env_engine = None
+    print("Available engines: [%s]" % ", ".join(available_engines))
+    while env_engine not in available_engines:
+        env_engine = available_engines[0]
+        env_engine = input("Engine (%s): " % available_engines[0]) or env_engine
+    env_dict["engine"] = env_engine
+
+    # author's name
+    env_author = input("Author's name: ")
+    env_dict["author_name"] = env_author
+
+    # author's email
+    env_email = input("Author's email: ")
+    env_dict["author_email"] = env_email
+
+    # github page
+    env_github = input("Github: github.com/")
+    env_dict["github"] = "github.com/%s" % env_github
+    # create folder
+    print("\n\nIs this okay?")
+    print(yaml.dump(env_dict, default_flow_style=False))
+    os.mkdir(env_name)
+    print("Done :)")
