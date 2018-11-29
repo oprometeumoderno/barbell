@@ -1,0 +1,6 @@
+register(
+    id='%ENV_ID%',
+    entry_point='%ENV_NAME%.envs:%ENV_ID_PASCALIZED%',
+    max_episode_steps=,
+    reward_threshold=,
+)

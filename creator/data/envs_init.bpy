@@ -1,0 +1,1 @@
+from %ENV_NAME%.envs.%ENV_ID_SNAKECASE% import %ENV_ID_PASCALCASE%

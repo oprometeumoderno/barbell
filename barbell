@@ -4,10 +4,12 @@ import sys
 
 import yaml
 
-version_default = 0
-available_engines = ['none', 'box2d']
-env_dict = {}
+from creator import Creator
 
+available_engines = ['none', 'box2d']
+default_version = '0.0.1'
+env_dict = {}
+ok = False
 
 if len(sys.argv) == 1 or sys.argv[1] != 'init':
     print("usage: barbell init")
@@ -16,40 +18,94 @@ else:
     print("Thanks for using Barbell!")
     print("This utility will help you creating a Gym environment.")
 
-    # environment name
-    env_name = input("Environment name: ")
-    env_dict["name"] = env_name
+    while ok is False:
 
-    # environment version
-    env_version = int(input("Version (%d): " % version_default) or version_default)
-    env_dict["version"] = env_version
-    env_dict["versioned_name"] = "%s-v%d" % (env_name, env_version)
+        # environment name
+        env_name = ''
+        while env_name == '':
+            env_name = input("Environment name: ")
+        env_dict["name"] = env_name
 
-    # environment description
-    env_description = input("Description: ")
-    env_dict["description"] = env_description
+        # environment description
+        env_description = input("Description: ")
+        env_dict["description"] = env_description
 
-    # environment engine
-    env_engine = None
-    print("Available engines: [%s]" % ", ".join(available_engines))
-    while env_engine not in available_engines:
-        env_engine = available_engines[0]
-        env_engine = input("Engine (%s): " % available_engines[0]) or env_engine
-    env_dict["engine"] = env_engine
+        # environment version
+        env_version = input("Version (%s): " % default_version)
+        if env_version == '':
+            env_dict["version"] = default_version
+        else:
+            env_dict["version"] = env_version
 
-    # author's name
-    env_author = input("Author's name: ")
-    env_dict["author_name"] = env_author
+        # environment engine
+        env_engine = None
+        print("Available engines: [%s]" % ", ".join(available_engines))
+        while env_engine not in available_engines:
+            env_engine = available_engines[0]
+            env_engine = input("Engine (%s): " % available_engines[0]) or env_engine
+        env_dict["engine"] = env_engine
 
-    # author's email
-    env_email = input("Author's email: ")
-    env_dict["author_email"] = env_email
+        # envs names
+        envs = ''
+        while envs == '':
+            envs = input("Environments (separated by a space, if there's more than one): ")
+            env_dict["envs"] = envs.split(" ")
 
-    # github page
-    env_github = input("Github: github.com/")
-    env_dict["github"] = "github.com/%s" % env_github
-    # create folder
-    print("\n\nIs this okay?")
-    print(yaml.dump(env_dict, default_flow_style=False))
-    os.mkdir(env_name)
+        # author's name
+        env_author = input("Author's name: ")
+        env_dict["author_name"] = env_author
+
+        # author's email
+        env_email = input("Author's email: ")
+        env_dict["author_email"] = env_email
+
+        # github page
+        env_github = input("Github: github.com/")
+        env_dict["github"] = "github.com/%s" % env_github
+        # create folder
+        print("\n\nIs this okay?")
+        print(yaml.dump(env_dict, default_flow_style=False))
+        ok = input("([yes]/no): ")
+        if ok == 'yes' or ok == '' or ok == 'y':
+            ok = True
+        else:
+            ok = False
+
+    os.mkdir(env_dict["name"])
+
+    # make setup.py
+    init_file_content = Creator.create_setup(env_dict["name"], env_dict["version"])
+    init_file_object = open('./%s/setup.py' % env_dict["name"], 'w+')
+    init_file_object.write(init_file_content)
+
+    # make .gitgignore
+    open('./%s/.gitignore' % env_dict["name"], 'w+')
+
+    # make README
+    readme_file_object = open('./%s/README.md' % env_dict["name"], 'w+')
+    readme_file_object.write("# %s\n\n" % env_dict["name"])
+    readme_file_object.write(env_dict["description"])
+
+    # environment subfolder
+    os.mkdir("%s/%s" % (env_dict["name"], env_dict["name"]))
+
+    # environment subfolder init
+    env_init_file_object = open('./%s/%s/__init__.py' % (env_dict["name"], env_dict["name"]), 'w+')
+    env_init_file_content = Creator.create_init(env_dict["name"], env_dict["envs"])
+    env_init_file_object.write(env_init_file_content)
+
+    # environment files subfolder
+    os.mkdir("%s/%s/envs" % (env_dict["name"], env_dict["name"]))
+
+    # environment files subfolder init
+    envs_init_object = open('./%s/%s/envs/__init__.py' % (env_dict["name"], env_dict["name"]), 'w+')
+    envs_init_content = Creator.create_envs_init(env_dict["name"], env_dict["envs"])
+    envs_init_object.write(envs_init_content)
+
+    # environment declaration files
+    env_files = Creator.create_envs_files(env_dict["name"], env_dict["envs"])
+    for env_file in env_files:
+        env_file_object = open('./%s/%s/envs/%s.py' % (env_dict["name"], env_dict["name"], env_file), 'w+')
+        env_file_object.write(env_files[env_file])
+
     print("Done :)")
