@@ -1,0 +1,2 @@
+include barbell_creator/data/*
+include barbell_creator/data/*.bpy

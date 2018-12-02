@@ -4,7 +4,7 @@ import sys
 
 import yaml
 
-from creator import Creator
+from barbell_creator import Creator
 
 available_engines = ['none', 'box2d']
 default_version = '0.0.1'
