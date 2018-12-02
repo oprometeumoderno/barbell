@@ -16,22 +16,22 @@ if len(sys.argv) == 1 or sys.argv[1] != 'init':
     sys.exit(0)
 else:
     print("Thanks for using Barbell!")
-    print("This utility will help you creating a Gym environment.")
+    print("This utility will help you creating a collection of Gym environments.")
 
     while ok is False:
 
         # environment name
         env_name = ''
         while env_name == '':
-            env_name = input("Environment name: ")
+            env_name = input("Collection name: ")
         env_dict["name"] = env_name
 
         # environment description
-        env_description = input("Description: ")
+        env_description = input("Collection description: ")
         env_dict["description"] = env_description
 
         # environment version
-        env_version = input("Version (%s): " % default_version)
+        env_version = input("Collection version (%s): " % default_version)
         if env_version == '':
             env_dict["version"] = default_version
         else:
@@ -42,13 +42,13 @@ else:
         print("Available engines: [%s]" % ", ".join(available_engines))
         while env_engine not in available_engines:
             env_engine = available_engines[0]
-            env_engine = input("Engine (%s): " % available_engines[0]) or env_engine
+            env_engine = input("Environment engine (%s): " % available_engines[0]) or env_engine
         env_dict["engine"] = env_engine
 
         # envs names
         envs = ''
         while envs == '':
-            envs = input("Environments (separated by a space, if there's more than one): ")
+            envs = input("Environments' names(separated by a space, if there's more than one): ")
             env_dict["envs"] = envs.split(" ")
 
         # author's name

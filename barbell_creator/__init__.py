@@ -40,5 +40,5 @@ class Creator:
         files = {}
         for env_id in env_ids:
             content = open(os.path.dirname(__file__) + '/data/env_file.bpy', 'r').read()
-            files[stringcase.pascalcase(env_id)] = content.replace("%ENV_ID_PASCALCASE%", stringcase.pascalcase(env_id))
+            files[stringcase.snakecase(env_id)] = content.replace("%ENV_ID_PASCALCASE%", stringcase.pascalcase(env_id))
         return files
