@@ -1,19 +1,49 @@
 import gym
-from gym import error, spaces, utils
-from gym.utils import seeding
+from barbell_environment import BarbellWorld, BarbellViewer
+
+
+# CONSTANTS
+FPS = 50  # desired FPS rate
+VIEWPORT_W = 600
+VIEWPORT_H = 400
+GRAVITY = (0, -100)
 
 
 class %ENV_ID_PASCALCASE%(gym.Env):
-    metadata = {'render.modes': ['human']}
+    metadata = {
+        'render.modes': ['human', 'rgb_array'],
+        'video.frames_per_second': FPS
+    }
 
     def __init__(self):
+        self.scroll = 0.0
+        self.viewer = None
+        self.drawlist = {}
+        self.world = BarbellWorld(gravity=GRAVITY)
+
+    def observation(self):
+        pass
+
+    def reward(self):
+        pass
+
+    def done(self):
         pass
 
     def step(self, action):
-        pass
+        reward = self.reward()
+        observation = self.observation()
+        done = self.done()
+        self.world.Step(1.0 / FPS, 6 * 30, 2 * 30)
+
+        return observation, reward, done
 
     def reset(self):
         pass
 
     def render(self, mode='human', close=False):
-        pass
+        if self.viewer is None:
+                    self.viewer = BarbellViewer(viewport_width=VIEWPORT_W, viewport_height=VIEWPORT_H)
+
+        self.viewer.draw_objects(self.drawlist)
+        return self.viewer.render(return_rgb_array=(mode == 'rgb_array'))
