@@ -8,17 +8,9 @@ VIEWPORT_W = 600
 VIEWPORT_H = 400
 GRAVITY = (0, -100)
 
+Teste1
 
-class %ENV_ID_PASCALCASE%ContactDetector(contactListener):
-    def __init__(self, env):
-        contactListener.__init__(self)
-        self.env = env
-    def BeginContact(self, contact):
-        pass
-    def EndContact(self, contact):
-        pass
-
-class %ENV_ID_PASCALCASE%(gym.Env):
+class Teste1(gym.Env):
     metadata = {
         'render.modes': ['human', 'rgb_array'],
         'video.frames_per_second': FPS
@@ -29,8 +21,6 @@ class %ENV_ID_PASCALCASE%(gym.Env):
         self.viewer = None
         self.drawlist = {}
         self.world = BarbellWorld(gravity=GRAVITY)
-        self.world.initialized_contact_detector = %ENV_ID_PASCALCASE%ContactDetector(self)
-        self.world.contactListener = self.world.initialized_contact_detector
 
     def observation(self):
         pass
