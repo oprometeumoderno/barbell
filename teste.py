@@ -6,7 +6,6 @@ env.reset()
 
 while True:
     observation, reward, done = env.step(0)
-    print(observation)
     if done:
         env.reset()
     env.render()

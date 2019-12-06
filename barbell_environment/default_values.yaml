@@ -25,6 +25,8 @@ PART:
   color: [155,155,155,0]
   radius: 1
   static: false
+  color1: [255, 0, 0]
+  color2: [0, 255, 0]
 
 JOINT:
   anchor_a: [0, 0]

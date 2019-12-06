@@ -8,7 +8,6 @@ VIEWPORT_W = 600
 VIEWPORT_H = 400
 GRAVITY = (0, -100)
 
-
 class %ENV_ID_PASCALCASE%(gym.Env):
     metadata = {
         'render.modes': ['human', 'rgb_array'],
