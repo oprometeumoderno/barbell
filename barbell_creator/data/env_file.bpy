@@ -1,12 +1,9 @@
 import gym
 from barbell_environment import BarbellWorld, BarbellViewer
-
+from barbell_utils import parse_file
 
 # CONSTANTS
 FPS = 50  # desired FPS rate
-VIEWPORT_W = 600
-VIEWPORT_H = 400
-GRAVITY = (0, -100)
 
 
 class %ENV_ID_PASCALCASE%ContactDetector(contactListener):
@@ -25,12 +22,29 @@ class %ENV_ID_PASCALCASE%(gym.Env):
     }
 
     def __init__(self):
-        self.scroll = 0.0
         self.viewer = None
         self.drawlist = {}
-        self.world = BarbellWorld(gravity=GRAVITY)
+        self.viewport_width = None
+        self.viewport_height = None
+        self.gravity = None
+        self.drawlist = {}
+        self.partslist = {}
+        self.jointslist = []
+        self.world = BarbellWorld(gravity=self.gravity)
         self.world.initialized_contact_detector = %ENV_ID_PASCALCASE%ContactDetector(self)
         self.world.contactListener = self.world.initialized_contact_detector
+
+    def get_object(self, object_name):
+        return self.world.objects[object_name]
+
+    def get_joint(self, object_a, object_b):
+        return self.world.joints["%s_%s" % object_a, object_b]
+
+    def set_definition_file(self, filename):
+        parse_file(filename, self)
+
+    def reset(self):
+        pass
 
     def observation(self):
         pass
@@ -46,11 +60,9 @@ class %ENV_ID_PASCALCASE%(gym.Env):
         observation = self.observation()
         done = self.done()
         self.world.Step(1.0 / FPS, 6 * 30, 2 * 30)
-
         return observation, reward, done
 
-    def reset(self):
-        pass
+
 
     def render(self, mode='human', close=False):
         if self.viewer is None:

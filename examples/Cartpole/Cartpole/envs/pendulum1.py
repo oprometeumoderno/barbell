@@ -2,7 +2,7 @@ import random
 
 import gym
 from barbell_environment import BarbellWorld, BarbellViewer
-from barbell_utils import parse_file, get_color
+from barbell_utils import parse_file
 
 DEG_TO_RAD = 0.0174533
 RAD_TO_DEG = 57.2958
@@ -16,7 +16,6 @@ class Pendulum1(gym.Env):
     }
 
     def __init__(self):
-        self.scroll = 0.0
         self.current_epoch = 0
         self.viewer = None
         self.viewport_width = None
@@ -44,6 +43,7 @@ class Pendulum1(gym.Env):
 
         self.world.create_objects(self.partslist)
         self.world.create_joints(self.jointslist)
+        self.world.apply_force('local', 'pole', (random.choice((-1, 1)), 0))
 
     def observation(self):
         obs = [
@@ -62,10 +62,6 @@ class Pendulum1(gym.Env):
             return False
 
     def step(self, action):
-        self.world.Step(1.0 / FPS, 6 * 30, 2 * 30)
-
-        self.world.apply_force('local', 'pole', (random.choice((-1, 1)), 0))
-
         observation = self.observation()
         done = self.done()
 
@@ -74,6 +70,7 @@ class Pendulum1(gym.Env):
         else:
             reward = 1
         self.current_epoch += 1
+        self.world.Step(1.0 / FPS, 6 * 30, 2 * 30)
         return observation, reward, done
 
     def render(self, mode='human', close=False):
