@@ -90,7 +90,6 @@ class BarbellWorld(b2World):
         body = self.create_body(args['body_type'], args['initial_position'], args['angle'], args['z_index'])
         body.CreateCircleFixture(radius=args['radius'] / self.ppm, density=args['density'], friction=args['friction'])
         self.paint_body(body, args['color1'], args['color2'])
-        print(body)
         return body
 
     def create_box(self, args):
