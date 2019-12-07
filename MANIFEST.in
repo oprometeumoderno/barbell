@@ -1,2 +1,2 @@
-include barbell_creator/data/*
 include barbell_creator/data/*.bpy
+include barbell_environment/*.yaml

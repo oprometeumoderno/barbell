@@ -8,15 +8,9 @@ DOMAIN:
   joint_color: [255, 63, 63, 0]
   joint_width: 1
   ppm: 50
-
-ENVIRONMENT:
   gravity: [0,-10]
   do_sleep: True
-  floor: none
-  objects_color: [0, 77, 0, 0]
 
-FLOOR:
-  position: [0,0]
 
 PART:
   density: 1

@@ -1,7 +1,7 @@
 import gym
-import Henrique  # noqa
+import Cartpole  # noqa
 
-env = gym.make('henrique_hard-v0')
+env = gym.make('pendulum1-v0')
 env.reset()
 
 while True:

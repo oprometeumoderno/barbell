@@ -12,7 +12,7 @@ DEG_TO_RAD = 0.0174533
 RAD_TO_DEG = 57.2958
 
 
-class HenriqueHard(gym.Env):
+class Pendulum1(gym.Env):
     metadata = {
         'render.modes': ['human', 'rgb_array'],
         'video.frames_per_second': FPS
