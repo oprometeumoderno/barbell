@@ -17,7 +17,6 @@ def parse_file(filename, env):
     if 'PARTS' in definitions_obj:
             for part in definitions_obj['PARTS']:
                 env.partslist[part] = definitions_obj['PARTS'][part]
-            print(env.partslist)
     if 'JOINTS' in definitions_obj:
         env.jointslist = definitions_obj['JOINTS']
 

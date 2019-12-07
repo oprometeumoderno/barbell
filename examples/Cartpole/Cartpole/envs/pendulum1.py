@@ -27,6 +27,12 @@ class Pendulum1(gym.Env):
         self.jointslist = []
         self.world = BarbellWorld(gravity=self.gravity)
 
+    def get_object(self, object_name):
+        return self.world.objects[object_name]
+
+    def get_joint(self, object_a, object_b):
+        return self.world.joints["%s_%s" % object_a, object_b]
+
     def set_definition_file(self, filename):
         parse_file(filename, self)
 
@@ -40,20 +46,25 @@ class Pendulum1(gym.Env):
         self.world.create_joints(self.jointslist)
 
     def observation(self):
-        pass
-        # return [self.world.objects['pole']]
+        obs = [
+            self.get_object('cart').position[0] * self.ppm,
+            self.get_object('cart').linearVelocity[0],
+            self.get_object('pole').angle * RAD_TO_DEG,
+            self.get_object('poletop').linearVelocity[0]
+        ]
+        return obs
 
     def done(self):
-        angle = abs(self.world.objects['pole'].joints[0].joint.angle)
+        angle = abs(self.get_object('pole').angle)
         if angle * RAD_TO_DEG >= 40 or self.current_epoch == 200:
             return True
         else:
             return False
 
     def step(self, action):
-        get_color('red')
-        if(random.randint(0, 30) == 4):
-            self.world.apply_force('local', 'pole', (-1, 0))
+        self.world.Step(1.0 / FPS, 6 * 30, 2 * 30)
+
+        self.world.apply_force('local', 'pole', (random.choice((-1, 1)), 0))
 
         observation = self.observation()
         done = self.done()
@@ -62,7 +73,6 @@ class Pendulum1(gym.Env):
             reward = 0
         else:
             reward = 1
-        self.world.Step(1.0 / FPS, 6 * 30, 2 * 30)
         self.current_epoch += 1
         return observation, reward, done
 
