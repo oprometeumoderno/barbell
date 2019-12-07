@@ -1,6 +1,6 @@
 DOMAIN:
-  width: 640
-  height: 480
+  viewport_width: 640
+  viewport_height: 480
   caption: another Barbell project
   target_fps: 60
   background_color: [0,0,0,0]
@@ -21,6 +21,7 @@ PART:
   static: false
   color1: [255, 0, 0]
   color2: [0, 255, 0]
+  z_index: 0
 
 JOINT:
   anchor_a: [0, 0]

@@ -1,0 +1,54 @@
+DOMAIN:
+  viewport_width: 600
+  fps_rate: 60
+  viewport_height: 400
+  ppm: 50
+
+PARTS:
+  cart:
+      body_shape: box
+      body_type: dynamic
+      initial_position: [300, 200]
+      box_size: [60, 30]
+      color1: blue
+      z_index: 0
+  pole:
+      body_shape: box
+      body_type: dynamic
+      initial_position: [300, 400]
+      box_size: [5, 70]
+      color1: black
+      angle: 0
+      z_index: 1
+  poletop:
+      body_shape: circle
+      body_type: dynamic
+      initial_position: [300, 450]
+      radius: 10
+      color1: white
+      color2: black
+      z_index: 3
+  floor:
+      body_shape: box
+      body_type: static
+      initial_position: [300, 10]
+      color1: white
+      box_size: [10, 10]
+
+
+JOINTS:
+  - connects: [cart, pole]
+    type: revolute
+    local_anchor_b: [0, -70]
+  - connects: [pole, poletop]
+    type: revolute
+    local_anchor_a: [0, 60]
+  - connects: [floor, cart]
+    type: prismatic
+    anchor: [0, 0]
+    axis: [1, 0]
+    lower_translation: -3
+    upper_translation: 3
+
+ENVIRONMENT:
+  gravity: [0, -10]

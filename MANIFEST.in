@@ -1,2 +1,3 @@
 include barbell_creator/data/*.bpy
 include barbell_environment/*.yaml
+include barbell_utils/colors.csv
