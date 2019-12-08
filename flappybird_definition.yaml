@@ -2,6 +2,7 @@ DOMAIN:
   viewport_width: 1000
   viewport_height: 500
   ppm: 50
+  statistics: True
 
 
 PARTS:

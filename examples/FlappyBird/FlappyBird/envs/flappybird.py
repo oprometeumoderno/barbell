@@ -1,6 +1,6 @@
 import gym
 import random
-from barbell_environment import BarbellWorld, BarbellViewer, BarbellContact
+from barbell_environment import BarbellWorld, BarbellViewer, BarbellContact, BarbellStatistics
 from barbell_utils import parse_file
 
 
@@ -27,17 +27,20 @@ class Flappybird(gym.Env):
     }
 
     def __init__(self):
+        self.env_name = 'flappybird-v0'
         self.viewer = None
         self.drawlist = {}
         self.viewport_width = None
         self.viewport_height = None
         self.gravity = None
-        self.drawlist = {}
         self.partslist = {}
         self.jointslist = []
         self.world = None
         self.collided = False
         self.current_step = 0
+        self.current_epoch = 0
+        self.statistics = False
+        self.statisticsRecorder = None
 
         self.initialize_world({})
 
@@ -61,6 +64,8 @@ class Flappybird(gym.Env):
 
     def reset(self):
         self.current_step = 0
+        self.total_reward = 0
+        self.current_epoch += 1
         objects = {}
         objects['bird'] = self.partslist['bird']
         objects['floor'] = self.partslist['floor']
@@ -111,10 +116,15 @@ class Flappybird(gym.Env):
             self.world.create_object(to_delete[1], new_pipe_bottom)
 
         reward = self.reward()
+        self.total_reward += reward
         observation = self.observation()
         done = self.done()
         self.current_step += 1
         self.world.Step(1.0 / FPS, 6 * 30, 2 * 30)
+        if done and self.statistics:
+            if self.statisticsRecorder is None:
+                self.statisticsRecorder = BarbellStatistics(self.env_name)
+            self.statisticsRecorder.save(self.current_epoch, self.total_reward)
         return observation, reward, done
 
     def render(self, mode='human', close=False):

@@ -12,6 +12,8 @@ def parse_file(filename, env):
             env.viewport_height = definitions_obj['DOMAIN']['viewport_height']
         if 'ppm' in definitions_obj['DOMAIN']:
             env.ppm = definitions_obj['DOMAIN']['ppm']
+        if 'statistics' in definitions_obj['DOMAIN']:
+            env.statistics = definitions_obj['DOMAIN']['statistics']
     if 'ENVIRONMENT' in definitions_obj and 'gravity' in definitions_obj['ENVIRONMENT']:
         env.gravity = definitions_obj['ENVIRONMENT']['gravity']
     if 'PARTS' in definitions_obj:

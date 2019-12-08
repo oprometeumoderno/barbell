@@ -1,3 +1,4 @@
+from datetime import datetime
 import yaml
 import os
 
@@ -272,3 +273,13 @@ class BarbellViewer(Viewer):
 class BarbellContact(contactListener):
     def init(self):
         super().__init__(self)
+
+
+class BarbellStatistics():
+    def __init__(self, env_name):
+        self.env_name = env_name
+        self.filename = './%s_%s.csv' % (self.env_name, datetime.now())
+
+    def save(self, epoch, total_reward):
+        with open(self.filename, 'a+') as out:
+            out.write("%s\n" % ",".join((str(epoch), str(total_reward))))
