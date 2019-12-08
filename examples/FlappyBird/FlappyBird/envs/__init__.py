@@ -1,0 +1,1 @@
+from FlappyBird.envs.flappybird import Flappybird

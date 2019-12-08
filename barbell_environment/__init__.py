@@ -42,6 +42,10 @@ class BarbellWorld(b2World):
         for obj in objects:
             self.create_object(obj, objects[obj])
 
+    def destroy_object(self, obj):
+        self.DestroyBody(self.objects[obj])
+        del self.objects[obj]
+
     def create_joints(self, joints):
         for joint in joints:
             self.create_joint(joint['type'],
@@ -242,6 +246,11 @@ class BarbellViewer(Viewer):
             if key in values_dict:
                 self.default_values[key] = values_dict[key]
 
+    def move_camera(self, objects, offset):
+        # return
+        for obj in objects:
+            objects[obj].position = objects[obj].position + (b2Vec2(offset) / self.ppm)
+
     def draw_objects(self, objects):
         to_draw = []
         for key in objects:
@@ -258,3 +267,8 @@ class BarbellViewer(Viewer):
                     path = [(trans * v) * self.ppm for v in f.shape.vertices]
                     path.append(path[0])
                     self.draw_polygon(path, color=objects[key].color1)
+
+
+class BarbellContact(contactListener):
+    def init(self):
+        super().__init__(self)

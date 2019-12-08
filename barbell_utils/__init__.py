@@ -29,5 +29,6 @@ def get_color(color_name):
             colors_list.append(row)
     for name, full_name, hexa, r, g, b in colors_list:
         if color_name == name:
-            return (int(r), int(g), int(b))
+            color = ((int(r) / 256, int(g) / 256, int(b) / 256))
+            return color
     return (0, 0, 0)

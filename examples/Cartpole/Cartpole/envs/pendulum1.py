@@ -21,7 +21,6 @@ class Pendulum1(gym.Env):
         self.viewport_width = None
         self.viewport_height = None
         self.gravity = None
-        self.drawlist = {}
         self.partslist = {}
         self.jointslist = []
         self.world = BarbellWorld(gravity=self.gravity)
@@ -37,8 +36,8 @@ class Pendulum1(gym.Env):
 
     def reset(self):
         self.current_epoch = 0
-        for body in self.drawlist:
-            self.world.DestroyBody(self.drawlist[body])
+        for body in self.world.objects:
+            self.world.DestroyBody(self.world.objects[body])
         self.world = BarbellWorld(gravity=self.gravity)
 
         self.world.create_objects(self.partslist)

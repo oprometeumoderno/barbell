@@ -66,7 +66,7 @@ class %ENV_ID_PASCALCASE%(gym.Env):
 
     def render(self, mode='human', close=False):
         if self.viewer is None:
-                    self.viewer = BarbellViewer(viewport_width=VIEWPORT_W, viewport_height=VIEWPORT_H)
+                    self.viewer = BarbellViewer(viewport_width=self.viewport_width, viewport_height=self.viewport_height)
 
-        self.viewer.draw_objects(self.drawlist)
+        self.viewer.draw_objects(self.world.objects)
         return self.viewer.render(return_rgb_array=(mode == 'rgb_array'))

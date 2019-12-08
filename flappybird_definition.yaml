@@ -1,0 +1,88 @@
+DOMAIN:
+  viewport_width: 1000
+  viewport_height: 500
+  ppm: 50
+
+
+PARTS:
+  bird:
+      body_type: dynamic
+      body_shape: box
+      initial_position: [512, 384]
+      color1: blue
+      color2: black
+      box_size: [20, 10]
+  floor:
+      body_type: static
+      body_shape: box
+      initial_position: [600, -2]
+      color1: white
+      box_size: [600, 1]
+  ceiling:
+      body_type: static
+      body_shape: box
+      initial_position: [600, 1202]
+      color1: white
+      box_size: [600, 1]
+  pipe1_top:
+      body_type: static
+      body_shape: box
+      color1: dark_olive_green
+      box_size: [30, 150]
+      initial_position: [1030, 350]
+  pipe1_bottom:
+      body_type: static
+      body_shape: box
+      color1: dark_olive_green
+      box_size: [30,50]
+      initial_position: [1030, 50]
+      z_index: 1
+  pipe2_top:
+      body_type: static
+      body_shape: box
+      color1: dark_olive_green
+      box_size: [30, 100]
+      initial_position: [1030, 400]
+  pipe2_bottom:
+      body_type: static
+      body_shape: box
+      color1: dark_olive_green
+      box_size: [30,100]
+      initial_position: [1030, 100]
+      z_index: 1
+  pipe3_top:
+      body_type: static
+      body_shape: box
+      color1: dark_olive_green
+      box_size: [30, 50]
+      initial_position: [1030, 450]
+  pipe3_bottom:
+      body_type: static
+      body_shape: box
+      color1: dark_olive_green
+      box_size: [30, 150]
+      initial_position: [1030, 150]
+  pipe4_bottom:
+      body_type: static
+      body_shape: box
+      color1: dark_olive_green
+      box_size: [30, 200]
+      initial_position: [1030, 200]
+  pipe4_top:
+      body_type: static
+      body_shape: box
+      color1: dark_olive_green
+      box_size: [30, 2]
+      initial_position: [1030, 498]
+  pipe5_bottom:
+     body_type: static
+     body_shape: box
+     color1: dark_olive_green
+     box_size: [30, 2]
+     initial_position: [1030, 0]
+  pipe5_top:
+     body_type: static
+     body_shape: box
+     color1: dark_olive_green
+     box_size: [30, 200]
+     initial_position: [1030, 300]
