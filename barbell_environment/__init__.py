@@ -1,4 +1,3 @@
-from datetime import datetime
 import yaml
 import os
 
@@ -278,7 +277,7 @@ class BarbellContact(contactListener):
 class BarbellStatistics():
     def __init__(self, env_name):
         self.env_name = env_name
-        self.filename = './%s_%s.csv' % (self.env_name, datetime.now())
+        self.filename = './%s.csv' % (self.env_name)
 
     def save(self, epoch, total_reward):
         with open(self.filename, 'a+') as out:

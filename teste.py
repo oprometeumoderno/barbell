@@ -1,10 +1,10 @@
 import random
 
 import gym
-import FlappyBird  # noqa
+import Cartpole  # noqa
 
-env = gym.make('flappybird-v0')
-env.set_definition_file('flappybird_definition.yaml')
+env = gym.make('pendulum1-v0')
+env.set_definition_file('cartpole_definition.yaml')
 env.reset()
 
 

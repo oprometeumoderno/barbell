@@ -3,6 +3,7 @@ DOMAIN:
   fps_rate: 60
   viewport_height: 400
   ppm: 50
+  statistics: true
 
 PARTS:
   cart:
