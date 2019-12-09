@@ -28,7 +28,7 @@ class Pendulum1(gym.Env):
         self.statisticsRecorder = None
         self.total_reward = 0
         self.current_epoch = 0
-        self.env_name = 'pendulum1-v0'
+        self.env_name = 'cartpoleBarbell-v0'
         self.world = BarbellWorld(gravity=self.gravity)
 
         self.action_space = spaces.Discrete(2)

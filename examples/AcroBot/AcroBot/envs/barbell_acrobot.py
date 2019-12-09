@@ -6,7 +6,7 @@ from barbell_utils import parse_file
 FPS = 50  # desired FPS rate
 
 
-class %ENV_ID_PASCALCASE%ContactDetector(BarbellContact):
+class BarbellAcrobotContactDetector(BarbellContact):
     def __init__(self, env):
         BarbellContact.__init__(self)
         self.env = env
@@ -18,7 +18,7 @@ class %ENV_ID_PASCALCASE%ContactDetector(BarbellContact):
         pass
 
 
-class %ENV_ID_PASCALCASE%(gym.Env):
+class BarbellAcrobot(gym.Env):
     metadata = {
         'render.modes': ['human', 'rgb_array'],
         'video.frames_per_second': FPS
@@ -32,7 +32,7 @@ class %ENV_ID_PASCALCASE%(gym.Env):
         self.drawlist = {}
         self.partslist = {}
         self.jointslist = []
-        self.name = '%ENV_ID%-v0'
+        self.name = 'barbellAcrobot-v0'
         self.world = None
         self.current_step = 0
         self.current_epoch = 0
@@ -41,13 +41,13 @@ class %ENV_ID_PASCALCASE%(gym.Env):
 
         self.initialize_world({})
 
-    def initialize_world(self, objects):
-        if self.world is not None:
-            for body in self.world.objects:
-                self.world.DestroyBody(self.world.objects[body])
-        self.world = BarbellWorld(gravity=self.gravity)
-        self.world.initialized_contact_detector = %ENV_ID_PASCALCASE%ContactDetector(self)
-        self.world.contactListener = self.world.initialized_contact_detector
+        def initialize_world(self, objects):
+            if self.world is not None:
+                for body in self.world.objects:
+                    self.world.DestroyBody(self.world.objects[body])
+            self.world = BarbellWorld(gravity=self.gravity)
+            self.world.initialized_contact_detector = BarbellAcrobotContactDetector(self)
+            self.world.contactListener = self.world.initialized_contact_detector
 
     def get_object(self, object_name):
         return self.world.objects[object_name]

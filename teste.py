@@ -2,9 +2,11 @@ import random
 
 import gym
 import Cartpole  # noqa
+import AcroBot  # noqa
+import FlappyBird  # noqa
 
-env = gym.make('pendulum1-v0')
-env.set_definition_file('cartpole_definition.yaml')
+env = gym.make('barbellAcrobot-v0')
+# env.set_definition_file('cartpole_definition.yaml')
 env.reset()
 
 
