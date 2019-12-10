@@ -6,12 +6,12 @@ import AcroBot  # noqa
 import FlappyBird  # noqa
 
 env = gym.make('barbellAcrobot-v0')
-# env.set_definition_file('cartpole_definition.yaml')
+env.set_definition_file('acrobot_definition.yaml')
 env.reset()
 
 
 while True:
-    observation, reward, done = env.step(int(random.randint(0, 1)))
+    observation, reward, done  = env.step(1)
     if done:
         env.reset()
     env.render(mode='human')

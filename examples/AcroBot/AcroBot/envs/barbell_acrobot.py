@@ -1,6 +1,8 @@
 import gym
 from barbell_environment import BarbellWorld, BarbellViewer, BarbellContact, BarbellStatistics
 from barbell_utils import parse_file
+from math import sin, cos
+import numpy as np
 
 # CONSTANTS
 FPS = 50  # desired FPS rate
@@ -39,15 +41,21 @@ class BarbellAcrobot(gym.Env):
         self.statistics = False
         self.statisticsRecorder = None
 
-        self.initialize_world({})
+        high = np.array([1.0, 1.0, 1.0, 1.0, np.inf, np.inf])
+        low = -high
 
-        def initialize_world(self, objects):
-            if self.world is not None:
-                for body in self.world.objects:
-                    self.world.DestroyBody(self.world.objects[body])
-            self.world = BarbellWorld(gravity=self.gravity)
-            self.world.initialized_contact_detector = BarbellAcrobotContactDetector(self)
-            self.world.contactListener = self.world.initialized_contact_detector
+        self.observation_space = gym.spaces.Box(low=low, high=high, dtype=np.float32)
+        self.action_space = gym.spaces.Discrete(3)
+
+        self.initialize_world()
+
+    def initialize_world(self):
+        if self.world is not None:
+            for body in self.world.objects:
+                self.world.DestroyBody(self.world.objects[body])
+        self.world = BarbellWorld(gravity=self.gravity)
+        self.world.initialized_contact_detector = BarbellAcrobotContactDetector(self)
+        self.world.contactListener = self.world.initialized_contact_detector
 
     def get_object(self, object_name):
         return self.world.objects[object_name]
@@ -63,27 +71,39 @@ class BarbellAcrobot(gym.Env):
         self.total_reward = 0
         self.current_epoch += 1
 
+        self.initialize_world()
+        self.world.create_objects(self.partslist)
+        self.world.create_joints(self.jointslist)
+
     def observation(self):
-        pass
+        angle1 = self.get_object('pole1').angle
+        angle2 = self.get_object('pole2').angle - angle1
+        lv1 = self.get_object('pole1').angularVelocity
+        lv2 = self.get_object('pole2').angularVelocity
+        obs = [cos(angle1), sin(angle1), cos(angle2), sin(angle2), lv1, lv2]
+        return np.array(obs)
 
     def reward(self):
-        pass
+        return -1
 
-    def done(self):
-        pass
+    def done(self, observation):
+        angle1 = self.get_object('pole1').angle
+        angle2 = self.get_object('pole2').angle - angle1
+        return self.current_step >= 2000 or bool(-cos(angle1) - cos(angle1 + angle2) > 1.)
 
     def step(self, action):
+        self.world.apply_force('rotate', 'pole1', action * 10)
+
+        self.current_step += 1
         reward = self.reward()
         observation = self.observation()
-        done = self.done()
+        done = self.done(observation)
         self.world.Step(1.0 / FPS, 6 * 30, 2 * 30)
         if done and self.statistics:
             if self.statisticsRecorder is None:
                 self.statisticsRecorder = BarbellStatistics(self.env_name)
             self.statisticsRecorder.save(self.current_epoch, self.total_reward)
         return observation, reward, done
-
-
 
     def render(self, mode='human', close=False):
         if self.viewer is None:
