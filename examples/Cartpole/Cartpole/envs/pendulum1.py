@@ -65,37 +65,40 @@ class Pendulum1(gym.Env):
 
         self.world.create_objects(self.partslist)
         self.world.create_joints(self.jointslist)
-        self.world.apply_force('local', 'pole', (random.choice((1, 1)) * random.choice((1, 2, 3, 4)), 0))
+        # self.world.apply_force('local', 'pole', (random.choice((1, 1)) * random.choice((1, 2, 3, 4)), 0))
 
     def observation(self):
-        obs = [
-            self.get_object('cart').position[0] * self.ppm,
-            self.get_object('cart').linearVelocity[0],
-            self.get_object('pole').angle * RAD_TO_DEG,
-            self.get_object('poletop').linearVelocity[0]
-        ]
-        return obs
+        pass
+        # obs = [
+        #     self.get_object('cart').position[0] * self.ppm,
+        #     self.get_object('cart').linearVelocity[0],
+        #     self.get_object('pole').angle * RAD_TO_DEG,
+        #     self.get_object('poletop').linearVelocity[0]
+        # ]
+        # return obs
 
     def done(self):
-        angle = abs(self.get_object('pole').angle)
-        if angle * RAD_TO_DEG >= 40 or self.current_step == 300:
-            return True
-        else:
-            return False
+        pass
+        # angle = abs(self.get_object('pole').angle)
+        # if angle * RAD_TO_DEG >= 40 or self.current_step == 300:
+        #     return True
+        # else:
+        #     return False
 
     def step(self, action):
-        if action == 0:
-            self.world.apply_force('local', 'cart', (-3, 0))
-        elif action == 1:
-            self.world.apply_force('local', 'cart', (3, 0))
-
+        # if action == 0:
+        #     self.world.apply_force('local', 'cart', (-3, 0))
+        # elif action == 1:
+        #     self.world.apply_force('local', 'cart', (3, 0))
+        #
         observation = self.observation()
         done = self.done()
-
-        if done:
-            reward = 0
-        else:
-            reward = 1
+        #
+        # if done:
+        #     reward = 0
+        # else:
+        #     reward = 1
+        reward = 0
         self.total_reward += reward
         self.current_step += 1
         self.world.Step(1.0 / FPS, 6 * 30, 2 * 30)
