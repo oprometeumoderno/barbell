@@ -107,10 +107,13 @@ class BarbellWorld(b2World):
         return body
 
     def create_polygon(self, args):
+        vertices = []
+        for v in args['vertices']:
+            vertices.append(b2Vec2(v[0], v[1]) / self.ppm)
         body = self.create_body(args['body_type'],
                                 args['initial_position'],
                                 args['angle'])
-        body.CreatePolygonFixture(shape=polygonShape(vertices=args['vertices']),
+        body.CreatePolygonFixture(shape=polygonShape(vertices=vertices),
                                   density=args['density'],
                                   friction=args['friction'])
 
